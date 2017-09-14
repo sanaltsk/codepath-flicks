@@ -21,24 +21,26 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivMovieImage"
-        android:layout_marginLeft="89dp"
-        android:layout_marginStart="89dp"
-        android:layout_toEndOf="@+id/ivMovieImage"
-        android:layout_toRightOf="@+id/ivMovieImage"
         android:text="TextView"
         android:textColor="@android:color/background_light"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/ivMovieImage"
+        android:layout_alignLeft="@+id/tvOverview"
+        android:layout_alignStart="@+id/tvOverview"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
 
     <TextView
         android:id="@+id/tvOverview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvTitle"
-        android:layout_alignStart="@+id/tvTitle"
-        android:layout_below="@+id/tvTitle"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="23dp"
         android:text="TextView"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/background_light"
+        android:layout_below="@+id/tvTitle"
+        android:layout_toRightOf="@+id/ivMovieImage"
+        android:layout_toEndOf="@+id/ivMovieImage"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp" />
 </RelativeLayout>

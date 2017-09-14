@@ -50,13 +50,16 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
         tvOverview.setText(movie.getOverview());
 
         String imageUri = null;
+        //Switch image used based on the orientation
         if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
             imageUri = movie.getBackdropPath();
         } else {
             imageUri = movie.getPosterPath();
         }
-        Picasso.with(getContext()).load(imageUri).into(ivImage);
-//        ivImage.setImageURI(movie.getPosterPath());
+        Picasso.with(getContext())
+                .load(imageUri)
+                .placeholder(R.drawable.placeholder)
+                .into(ivImage);
         return convertView;
     }
 }
