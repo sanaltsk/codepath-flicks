@@ -14,6 +14,12 @@ public class Movie {
     String originalTitle;
     String posterPath;
     String overview;
+    String backdropPath;
+
+    public String getBackdropPath() {
+        String prefix = "https://image.tmdb.org/t/p/w1280";
+        return prefix + backdropPath;
+    }
 
     public String getOriginalTitle() {
         return originalTitle;
@@ -33,6 +39,7 @@ public class Movie {
             this.originalTitle = obj.getString("original_title");
             this.posterPath = obj.getString("poster_path");
             this.overview = obj.getString("overview");
+            this.backdropPath = obj.getString("backdrop_path");
         }catch(JSONException e) {
           e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package com.codepath.week1.flicks.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -30,7 +31,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //get movie data
         Movie movie = getItem(position);
-
+        int orientation = getContext().getResources().getConfiguration().orientation;
         //check the existing view being reused
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -41,13 +42,19 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
         //clear out image view
         ivImage.setImageResource(0);
 
+
         TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
         TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
 
         tvTitle.setText(movie.getOriginalTitle());
         tvOverview.setText(movie.getOverview());
 
-        String imageUri = movie.getPosterPath();
+        String imageUri = null;
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            imageUri = movie.getBackdropPath();
+        } else {
+            imageUri = movie.getPosterPath();
+        }
         Picasso.with(getContext()).load(imageUri).into(ivImage);
 //        ivImage.setImageURI(movie.getPosterPath());
         return convertView;
