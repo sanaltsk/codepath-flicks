@@ -1,8 +1,11 @@
 package com.codepath.week1.flicks;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.codepath.week1.flicks.adapters.MovieArrayAdapter;
@@ -16,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +57,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+
+        lvMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("debug","Navigating to movie detail " + movies.get(position).getOriginalTitle());
+
+                Movie movie = (Movie)parent.getItemAtPosition(position);
+                Intent intent = new Intent(getApplicationContext(),MovieDetail.class);
+                intent.putExtra("movie", (Serializable) movie);
+                startActivity(intent);
+                finish();
             }
         });
     }
