@@ -11,10 +11,20 @@ import java.util.ArrayList;
  */
 
 public class Movie {
+    String id;
+    Double rating;
     String originalTitle;
     String posterPath;
     String overview;
     String backdropPath;
+
+    public String getId() {
+        return id;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
 
     public String getBackdropPath() {
         String prefix = "https://image.tmdb.org/t/p/w1280";
@@ -40,6 +50,7 @@ public class Movie {
             this.posterPath = obj.getString("poster_path");
             this.overview = obj.getString("overview");
             this.backdropPath = obj.getString("backdrop_path");
+            this.rating = obj.getDouble("vote_average");
         }catch(JSONException e) {
           e.printStackTrace();
         }

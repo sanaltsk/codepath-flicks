@@ -17,11 +17,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static android.R.attr.rating;
+import static com.codepath.week1.flicks.R.id.tvTitle;
+
 /**
  * Created by sanal on 9/13/17.
  */
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie>{
+    String imageUri = null;
+
     public MovieArrayAdapter(Context context, List<Movie> movies) {
         super(context, android.R.layout.simple_list_item_1, movies);
     }
@@ -34,32 +39,56 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
         int orientation = getContext().getResources().getConfiguration().orientation;
         //check the existing view being reused
         if(convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.item_movie, parent, false);
+//            LayoutInflater inflater = LayoutInflater.from(getContext());
+//            convertView = inflater.inflate(R.layout.item_movie, parent, false);
+            int type = getItemViewType(position);
+            convertView = getInflatedLayoutForType(type);
         }
+
         //find image view
         ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
         //clear out image view
         ivImage.setImageResource(0);
 
+        if(movie.getRating()<5.0) {
+            TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+            TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
 
-        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-        TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-
-        tvTitle.setText(movie.getOriginalTitle());
-        tvOverview.setText(movie.getOverview());
-
-        String imageUri = null;
+            tvTitle.setText(movie.getOriginalTitle());
+            tvOverview.setText(movie.getOverview());
+        }
         //Switch image used based on the orientation
-        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE || movie.getRating() > 5) {
             imageUri = movie.getBackdropPath();
         } else {
             imageUri = movie.getPosterPath();
         }
+
         Picasso.with(getContext())
                 .load(imageUri)
                 .placeholder(R.drawable.placeholder)
                 .into(ivImage);
         return convertView;
+    }
+
+    private View getInflatedLayoutForType(int type) {
+        if(type==0) {
+            return LayoutInflater.from(getContext()).inflate(R.layout.item_movie,null);
+        }else {
+            return LayoutInflater.from(getContext()).inflate(R.layout.popular_movie, null);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(getItem(position).getRating()<5.0){
+            return 0;
+        }
+        return 1;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
     }
 }
