@@ -35,19 +35,14 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     String imageUri = null;
 
     //View lookup cache
-   /* static class ViewHolder {
+   static class ViewHolder {
         @BindView(R.id.ivMovieImage) ImageView ivImage;
-        @BindView(R.id.tvTitle) TextView tvTitle;
-        @BindView(R.id.tvOverview) TextView tvOverview;
+        @Nullable @BindView(R.id.tvTitle) TextView tvTitle;
+        @Nullable @BindView(R.id.tvOverview) TextView tvOverview;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-    }*/
-     static class ViewHolder {
-        ImageView ivImage;
-        TextView tvTitle;
-        TextView tvOverview;
     }
 
     public MovieArrayAdapter(Context context, List<Movie> movies) {
@@ -59,33 +54,25 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //get movie data
         Movie movie = getItem(position);
-        ViewHolder viewHolder = new ViewHolder();
+        ViewHolder viewHolder;
         int orientation = getContext().getResources().getConfiguration().orientation;
-        //check the existing view being reused
 
+        //check the existing view being reused
         if(convertView == null) {
             // If there's no view to re-use, inflate a brand new view for row
-            viewHolder = new ViewHolder();
-
             int type = getItemViewType(position);
             convertView = getInflatedLayoutForType(type);
-
-            viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-            viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-
+            viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         //find image view (done by butterknife)
-//        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
         //clear out image view
         viewHolder.ivImage.setImageResource(0);
 
         if(movie.getRating()<5.0) {
-
             viewHolder.tvTitle.setText(movie.getOriginalTitle());
             viewHolder.tvOverview.setText(movie.getOverview());
         }
