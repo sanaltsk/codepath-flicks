@@ -1,5 +1,6 @@
 package com.codepath.week1.flicks.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
@@ -17,6 +18,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 import static android.R.attr.rating;
 import static com.codepath.week1.flicks.R.id.tvTitle;
 
@@ -26,6 +31,9 @@ import static com.codepath.week1.flicks.R.id.tvTitle;
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     String imageUri = null;
+
+    @BindView(R.id.ivMovieImage) ImageView ivImage;
+    private Unbinder unbinder;
 
     public MovieArrayAdapter(Context context, List<Movie> movies) {
         super(context, android.R.layout.simple_list_item_1, movies);
@@ -44,9 +52,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
             int type = getItemViewType(position);
             convertView = getInflatedLayoutForType(type);
         }
+        unbinder = ButterKnife.bind(this, convertView);
 
-        //find image view
-        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
+        //find image view (done by butterknife)
         //clear out image view
         ivImage.setImageResource(0);
 

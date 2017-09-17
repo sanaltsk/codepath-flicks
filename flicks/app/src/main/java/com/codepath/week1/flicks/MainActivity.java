@@ -12,8 +12,6 @@ import com.codepath.week1.flicks.adapters.MovieArrayAdapter;
 import com.codepath.week1.flicks.model.Movie;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,19 +19,24 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
+
+import static com.codepath.week1.flicks.R.id.lvMovies;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<Movie> movies;
-    ListView lvMovies;
     MovieArrayAdapter movieAdapter;
+
+    @BindView(R.id.lvMovies) ListView lvMovies;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        lvMovies = (ListView) findViewById(R.id.lvMovies);
+        ButterKnife.bind(this);
         movies = new ArrayList<>();
         movieAdapter = new MovieArrayAdapter(this, movies);
         lvMovies.setAdapter(movieAdapter);
