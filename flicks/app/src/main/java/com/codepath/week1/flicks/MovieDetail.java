@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class MovieDetail extends AppCompatActivity {
     @BindView(R.id.poster) ImageView poster;
@@ -31,6 +32,7 @@ public class MovieDetail extends AppCompatActivity {
 
         Picasso.with(this.getApplicationContext())
                 .load(movie.getBackdropPath())
+                .transform(new RoundedCornersTransformation(10, 10))
                 .placeholder(R.drawable.placeholder)
                 .into(poster);
         rating.setNumStars(5);
