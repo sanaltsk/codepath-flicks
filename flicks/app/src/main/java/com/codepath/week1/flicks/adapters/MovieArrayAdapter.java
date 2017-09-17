@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static android.R.attr.rating;
+import static android.R.attr.type;
+import static com.codepath.week1.flicks.R.id.tvOverview;
 import static com.codepath.week1.flicks.R.id.tvTitle;
 
 /**
@@ -32,8 +34,21 @@ import static com.codepath.week1.flicks.R.id.tvTitle;
 public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     String imageUri = null;
 
-    @BindView(R.id.ivMovieImage) ImageView ivImage;
-    private Unbinder unbinder;
+    //View lookup cache
+   /* static class ViewHolder {
+        @BindView(R.id.ivMovieImage) ImageView ivImage;
+        @BindView(R.id.tvTitle) TextView tvTitle;
+        @BindView(R.id.tvOverview) TextView tvOverview;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }*/
+     static class ViewHolder {
+        ImageView ivImage;
+        TextView tvTitle;
+        TextView tvOverview;
+    }
 
     public MovieArrayAdapter(Context context, List<Movie> movies) {
         super(context, android.R.layout.simple_list_item_1, movies);
@@ -44,26 +59,35 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //get movie data
         Movie movie = getItem(position);
+        ViewHolder viewHolder = new ViewHolder();
         int orientation = getContext().getResources().getConfiguration().orientation;
         //check the existing view being reused
+
         if(convertView == null) {
-//            LayoutInflater inflater = LayoutInflater.from(getContext());
-//            convertView = inflater.inflate(R.layout.item_movie, parent, false);
+            // If there's no view to re-use, inflate a brand new view for row
+            viewHolder = new ViewHolder();
+
             int type = getItemViewType(position);
             convertView = getInflatedLayoutForType(type);
+
+            viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
+            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+            viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        unbinder = ButterKnife.bind(this, convertView);
 
         //find image view (done by butterknife)
+//        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
         //clear out image view
-        ivImage.setImageResource(0);
+        viewHolder.ivImage.setImageResource(0);
 
         if(movie.getRating()<5.0) {
-            TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-            TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
 
-            tvTitle.setText(movie.getOriginalTitle());
-            tvOverview.setText(movie.getOverview());
+            viewHolder.tvTitle.setText(movie.getOriginalTitle());
+            viewHolder.tvOverview.setText(movie.getOverview());
         }
         //Switch image used based on the orientation
         if (orientation == Configuration.ORIENTATION_LANDSCAPE || movie.getRating() > 5) {
@@ -75,7 +99,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
         Picasso.with(getContext())
                 .load(imageUri)
                 .placeholder(R.drawable.placeholder)
-                .into(ivImage);
+                .into(viewHolder.ivImage);
         return convertView;
     }
 
