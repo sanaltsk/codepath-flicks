@@ -7,8 +7,13 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.week1.flicks.model.Movie;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -20,15 +25,15 @@ public class MovieDetail extends AppCompatActivity {
     @BindView(R.id.rating) RatingBar rating;
     @BindView(R.id.title) TextView tvTitle;
     @BindView(R.id.overview) TextView tvOverview;
-
+    Movie movie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        Movie movie = (Movie) intent.getSerializableExtra("movie");
-        Log.d("debug",movie.toString());
+        movie = (Movie) intent.getSerializableExtra("movie");
+        Log.d("debug", movie.toString());
 
         Picasso.with(this.getApplicationContext())
                 .load(movie.getBackdropPath())
@@ -36,7 +41,7 @@ public class MovieDetail extends AppCompatActivity {
                 .placeholder(R.drawable.placeholder)
                 .into(poster);
         rating.setNumStars(5);
-        rating.setRating((int)((movie.getRating()/10)*5));
+        rating.setRating((int) ((movie.getRating() / 10) * 5));
         tvTitle.setText(movie.getOriginalTitle());
         tvOverview.setText(movie.getOverview());
     }

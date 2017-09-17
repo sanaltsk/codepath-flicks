@@ -91,7 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("debug","Navigating to movie detail " + movies.get(position).getOriginalTitle());
 
                 Movie movie = (Movie)parent.getItemAtPosition(position);
-                Intent intent = new Intent(getApplicationContext(),MovieDetail.class);
+                Intent intent;
+                if(movie.getRating()>5.0) {
+                    intent = new Intent(getApplicationContext(),YoutubePlayerActivity.class);
+                } else
+                {
+                    intent = new Intent(getApplicationContext(),MovieDetail.class);
+                }
                 intent.putExtra("movie", (Serializable) movie);
                 startActivity(intent);
             }
