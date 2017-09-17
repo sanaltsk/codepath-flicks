@@ -1,18 +1,15 @@
 package com.codepath.week1.flicks;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.codepath.week1.flicks.adapters.MovieArrayAdapter;
 import com.codepath.week1.flicks.model.Movie;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,14 +21,11 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cz.msebera.android.httpclient.Header;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import static com.codepath.week1.flicks.R.id.lvMovies;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<Movie> movies;
@@ -100,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),MovieDetail.class);
                 intent.putExtra("movie", (Serializable) movie);
                 startActivity(intent);
-                finish();
             }
         });
     }
