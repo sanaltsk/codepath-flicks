@@ -53,8 +53,7 @@ Describe any challenges encountered while building the app.
 Adding an overlay icon to the images was really hard for me.
 
 ## Open-source libraries used
-
-- [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
+- [OkHttp](http://square.github.io/okhttp/) - OkHttp - Square Open Source
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
 
 ## License
